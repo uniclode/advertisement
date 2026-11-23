@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto-Reloading Page Banner Ad</title>
+  
+  <script>
+    // This tells the browser to reload the entire page after 60,000 milliseconds (1 minute)
+    setTimeout(function(){
+      window.location.reload();
+    }, 60000);
+  </script>
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .ad-container {
+      width: 300px;
+      height: 250px;
+      position: relative;
+      background: #fff; 
+      outline: 1px dashed #ccc; 
+    }
+  </style>
+</head>
+<body>
+
+  <!-- The Banner Ad -->
+  <div class="ad-container" id="adSlot">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '4758ef35f3f687b2ced7b72372109ba9',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="https://bauval.org/22/4758ef35f3f687b2ced7b72372109ba9"></script>
+  </div>
+
+</body>
+</html>
