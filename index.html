@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auto-Reloading Page Banner Ad</title>
-  
-  <script>
-    // This tells the browser to reload the entire page after 60,000 milliseconds (1 minute)
-    setTimeout(function(){
-      window.location.reload();
-    }, 60000);
-  </script>
+  <title>Banner Ad App</title>
+
+  <!-- Manifest Link -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
 
   <style>
     html, body {
@@ -25,6 +22,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      flex-direction: column;
     }
 
     .ad-container {
@@ -33,6 +31,9 @@
       position: relative;
       background: #fff; 
       outline: 1px dashed #ccc; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   </style>
 </head>
@@ -52,6 +53,30 @@
     <script type="text/javascript" src="https://bauval.org/22/4758ef35f3f687b2ced7b72372109ba9"></script>
   </div>
 
-</body>
+  <!-- Safe Ad Reload Script -->
+  <script>
+    setTimeout(function(){
+      var adFrame = document.querySelector('#adSlot iframe');
+      if (adFrame) {
+        adFrame.src = adFrame.src;
+      }
+    }, 60000);
+  </script>
 
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+
+</body>
 </html>
