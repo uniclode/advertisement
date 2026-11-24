@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Banner Ad App</title>
+  <title>Banner Ad</title>
 
-  <!-- Web App Manifest -->
-  <link rel="manifest" href="manifest.json">
+  <!-- 
+    FULL WEB APP MANIFEST 
+    Hardcoded with your exact URL and GitHub repo paths.
+    The name is set to "Banner Ad".
+  -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"Banner Ad","short_name":"Banner Ad","start_url":"https://uniclode.github.io/advertisement/","display":"standalone","background_color":"#f4f4f4","theme_color":"#ffffff","description":"A lightweight app to display a banner ad.","orientation":"portrait","icons":[{"src":"https://raw.githubusercontent.com/uniclode/advertisement/main/icon-192x192.png","sizes":"192x192","type":"image/png","purpose":"any"},{"src":"https://raw.githubusercontent.com/uniclode/advertisement/main/icon-512x512.png","sizes":"512x512","type":"image/png","purpose":"any"}]}'>
+  
+  <!-- Theme Color -->
   <meta name="theme-color" content="#ffffff">
 
   <style>
@@ -63,16 +69,47 @@
     }, 60000);
   </script>
 
-  <!-- Service Worker Registration -->
+  <!-- 
+    FULL SERVICE WORKER 
+    This dynamically creates a Service Worker to satisfy PWABuilder's 
+    offline capability and reliability requirements.
+  -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
+        const swCode = `
+          const CACHE_NAME = 'banner-ad-cache-v1';
+          const urlsToCache = [
+            'https://uniclode.github.io/advertisement/',
+            'https://uniclode.github.io/advertisement/index.html'
+          ];
+          
+          self.addEventListener('install', event => {
+            self.skipWaiting();
+            event.waitUntil(
+              caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+            );
+          });
+          
+          self.addEventListener('fetch', event => {
+            event.respondWith(
+              caches.match(event.request).then(response => {
+                return response || fetch(event.request);
+              })
+            );
+          });
+        `;
+        
+        // Create the Blob and register the service worker
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+
+        navigator.serviceWorker.register(swUrl)
           .then(registration => {
-            console.log('ServiceWorker registration successful');
+            console.log('Service Worker registered successfully!');
           })
           .catch(err => {
-            console.log('ServiceWorker registration failed: ', err);
+            console.log('Service Worker registration failed: ', err);
           });
       });
     }
